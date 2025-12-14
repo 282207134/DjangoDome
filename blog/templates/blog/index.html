@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}首页 - Django 6.0 学习项目{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 2rem 0;">
+    <h1>🎉 欢迎来到 Django 6.0 学习项目！</h1>
+    <p style="font-size: 1.2rem; color: #666; margin: 2rem 0;">
+        这是一个完整的 Django 学习项目，包含详细的中文注释和文档
+    </p>
+    
+    <div style="background: #f8f9fa; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+        <h2>📚 项目特点</h2>
+        <ul style="list-style: none; text-align: left; max-width: 600px; margin: 1rem auto;">
+            <li style="padding: 0.5rem 0;">✅ 完整的博客系统（文章、分类、标签、评论）</li>
+            <li style="padding: 0.5rem 0;">✅ 用户认证和权限管理</li>
+            <li style="padding: 0.5rem 0;">✅ RESTful API 接口</li>
+            <li style="padding: 0.5rem 0;">✅ 详细的中文注释</li>
+            <li style="padding: 0.5rem 0;">✅ 完善的学习文档</li>
+        </ul>
+    </div>
+    
+    <div style="margin: 2rem 0;">
+        <h2>🚀 快速开始</h2>
+        <p style="margin: 1rem 0;">
+            1. 访问 <a href="/admin/" style="color: #0c4b33; font-weight: bold;">管理后台</a> 创建一些数据<br>
+            2. 查看 <a href="{% url 'blog:post_list' %}" style="color: #0c4b33; font-weight: bold;">文章列表</a><br>
+            3. <a href="{% url 'users:register' %}" style="color: #0c4b33; font-weight: bold;">注册账号</a> 体验完整功能
+        </p>
+    </div>
+    
+    <div style="background: #e7f3ff; padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+        <h3>📖 学习文档</h3>
+        <p>
+            请阅读以下文档开始学习：
+        </p>
+        <ul style="list-style: none; margin: 1rem 0;">
+            <li style="padding: 0.3rem 0;"><strong>README_CN.md</strong> - 项目介绍和安装指南</li>
+            <li style="padding: 0.3rem 0;"><strong>USAGE_CN.md</strong> - 详细使用说明</li>
+            <li style="padding: 0.3rem 0;"><strong>LEARNING_GUIDE_CN.md</strong> - 系统学习路线</li>
+        </ul>
+    </div>
+    
+    <div style="margin: 2rem 0;">
+        <h3>💡 学习要点</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0; text-align: left;">
+            <div style="background: #fff; border: 2px solid #0c4b33; padding: 1rem; border-radius: 5px;">
+                <h4>Models（模型）</h4>
+                <p style="color: #666; font-size: 0.9rem;">查看 blog/models.py，学习数据模型定义</p>
+            </div>
+            <div style="background: #fff; border: 2px solid #0c4b33; padding: 1rem; border-radius: 5px;">
+                <h4>Views（视图）</h4>
+                <p style="color: #666; font-size: 0.9rem;">查看 blog/views.py，学习视图函数和类视图</p>
+            </div>
+            <div style="background: #fff; border: 2px solid #0c4b33; padding: 1rem; border-radius: 5px;">
+                <h4>Templates（模板）</h4>
+                <p style="color: #666; font-size: 0.9rem;">查看 templates/，学习模板系统</p>
+            </div>
+            <div style="background: #fff; border: 2px solid #0c4b33; padding: 1rem; border-radius: 5px;">
+                <h4>Admin（管理后台）</h4>
+                <p style="color: #666; font-size: 0.9rem;">查看 blog/admin.py，学习管理后台定制</p>
+            </div>
+        </div>
+    </div>
+    
+    {% if posts %}
+    <div style="margin: 2rem 0; text-align: left;">
+        <h2>📝 最新文章</h2>
+        {% for post in posts %}
+        <div style="background: #fff; border-left: 4px solid #0c4b33; padding: 1rem; margin: 1rem 0;">
+            <h3><a href="{{ post.get_absolute_url }}" style="color: #0c4b33; text-decoration: none;">{{ post.title }}</a></h3>
+            <p style="color: #666; font-size: 0.9rem;">
+                作者: {{ post.author.username }} | 
+                发布于: {{ post.publish|date:"Y-m-d H:i" }} |
+                浏览: {{ post.views }} 次
+            </p>
+            <p>{{ post.excerpt|truncatewords:30 }}</p>
+        </div>
+        {% endfor %}
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'blog:post_list' %}" style="display: inline-block; background: #0c4b33; color: #fff; padding: 0.7rem 2rem; border-radius: 5px; text-decoration: none;">查看更多文章 →</a>
+        </p>
+    </div>
+    {% else %}
+    <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 1rem; border-radius: 5px; margin: 2rem 0;">
+        <p>⚠️ 还没有文章，请先到管理后台创建一些文章吧！</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
