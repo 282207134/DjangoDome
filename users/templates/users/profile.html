@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}个人资料 - Django 6.0 学习项目{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 2rem auto;">
+    <h2 style="color: #0c4b33; margin-bottom: 2rem;">👤 个人资料</h2>
+    
+    <div style="background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+            <div>
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="头像" 
+                         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #0c4b33;">
+                {% else %}
+                    <div style="width: 150px; height: 150px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; border: 3px solid #0c4b33;">
+                        <span style="font-size: 3rem;">👤</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div style="flex: 1;">
+                <h3 style="color: #0c4b33; margin-bottom: 1rem;">{{ user.username }}</h3>
+                <p style="color: #666; margin: 0.5rem 0;"><strong>邮箱：</strong>{{ user.email|default:"未设置" }}</p>
+                <p style="color: #666; margin: 0.5rem 0;"><strong>注册时间：</strong>{{ user.date_joined|date:"Y-m-d H:i" }}</p>
+                <p style="color: #666; margin: 0.5rem 0;"><strong>最后登录：</strong>{{ user.last_login|date:"Y-m-d H:i"|default:"从未登录" }}</p>
+            </div>
+        </div>
+        
+        {% if user.profile.bio %}
+        <div style="margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+            <h4 style="color: #0c4b33; margin-bottom: 0.5rem;">个人简介</h4>
+            <p style="color: #333; white-space: pre-wrap;">{{ user.profile.bio }}</p>
+        </div>
+        {% endif %}
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+            {% if user.profile.location %}
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                <strong>📍 所在地：</strong>{{ user.profile.location }}
+            </div>
+            {% endif %}
+            
+            {% if user.profile.website %}
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                <strong>🌐 个人网站：</strong>
+                <a href="{{ user.profile.website }}" target="_blank" style="color: #0c4b33;">{{ user.profile.website }}</a>
+            </div>
+            {% endif %}
+            
+            {% if user.profile.birth_date %}
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                <strong>🎂 出生日期：</strong>{{ user.profile.birth_date|date:"Y-m-d" }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; text-align: center;">
+            <a href="{% url 'users:profile_edit' %}" 
+               style="display: inline-block; padding: 0.75rem 2rem; background: #0c4b33; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-right: 1rem;">
+                编辑资料
+            </a>
+            <a href="{% url 'users:password_change' %}" 
+               style="display: inline-block; padding: 0.75rem 2rem; background: #44b78b; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                修改密码
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

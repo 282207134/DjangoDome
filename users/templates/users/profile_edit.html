@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}编辑个人资料 - Django 6.0 学习项目{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #0c4b33; margin-bottom: 2rem;">✏️ 编辑个人资料</h2>
+    
+    <form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% csrf_token %}
+        
+        <div>
+            <h3 style="color: #0c4b33; margin-bottom: 1rem; border-bottom: 2px solid #0c4b33; padding-bottom: 0.5rem;">用户信息</h3>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_username" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">用户名：</label>
+                {{ u_form.username }}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_email" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">邮箱：</label>
+                {{ u_form.email }}
+            </div>
+        </div>
+        
+        <div>
+            <h3 style="color: #0c4b33; margin-bottom: 1rem; border-bottom: 2px solid #0c4b33; padding-bottom: 0.5rem;">个人资料</h3>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_avatar" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">头像：</label>
+                {% if user.profile.avatar %}
+                    <div style="margin-bottom: 0.5rem;">
+                        <img src="{{ user.profile.avatar.url }}" alt="当前头像" 
+                             style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #0c4b33;">
+                    </div>
+                {% endif %}
+                {{ p_form.avatar }}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_bio" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">个人简介：</label>
+                {{ p_form.bio }}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_location" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">所在地：</label>
+                {{ p_form.location }}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_website" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">个人网站：</label>
+                {{ p_form.website }}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="id_birth_date" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">出生日期：</label>
+                {{ p_form.birth_date }}
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" 
+                    style="flex: 1; padding: 0.75rem; background: #0c4b33; color: #fff; border: none; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">
+                保存更改
+            </button>
+            <a href="{% url 'users:profile' %}" 
+               style="flex: 1; padding: 0.75rem; background: #6c757d; color: #fff; text-decoration: none; border-radius: 5px; font-size: 1.1rem; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center;">
+                取消
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+    input[type="text"], input[type="email"], input[type="url"], input[type="date"], textarea, input[type="file"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #0c4b33;
+    }
+    
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}
+

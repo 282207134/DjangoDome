@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}登录 - Django 6.0 学习项目{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #0c4b33; margin-bottom: 2rem;">🔐 用户登录</h2>
+    
+    <form method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; border: 1px solid #f5c6cb;">
+            <strong>登录失败！</strong>
+            {% if form.non_field_errors %}
+                <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div>
+            <label for="id_username" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">用户名：</label>
+            <input type="text" name="username" id="id_username" required 
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请输入用户名">
+        </div>
+        
+        <div>
+            <label for="id_password" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">密码：</label>
+            <input type="password" name="password" id="id_password" required 
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请输入密码">
+        </div>
+        
+        <div>
+            <input type="hidden" name="next" value="{{ next }}">
+        </div>
+        
+        <button type="submit" 
+                style="width: 100%; padding: 0.75rem; background: #0c4b33; color: #fff; border: none; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s;"
+                onmouseover="this.style.background='#0a3d2a'" 
+                onmouseout="this.style.background='#0c4b33'">
+            登录
+        </button>
+    </form>
+    
+    <div style="margin-top: 2rem; text-align: center; padding-top: 2rem; border-top: 1px solid #ddd;">
+        <p style="color: #666; margin-bottom: 1rem;">还没有账号？</p>
+        <a href="{% url 'users:register' %}" 
+           style="display: inline-block; padding: 0.75rem 2rem; background: #44b78b; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            立即注册
+        </a>
+    </div>
+    
+    <div style="margin-top: 1.5rem; text-align: center;">
+        <a href="{% url 'users:password_reset' %}" style="color: #0c4b33; text-decoration: none; font-size: 0.9rem;">
+            忘记密码？
+        </a>
+    </div>
+</div>
+{% endblock %}
+

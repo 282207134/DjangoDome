@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}注册 - Django 6.0 学习项目{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #0c4b33; margin-bottom: 2rem;">📝 用户注册</h2>
+    
+    <form method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; border: 1px solid #f5c6cb;">
+            <strong>注册失败！</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <div>
+            <label for="id_username" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">用户名：</label>
+            <input type="text" name="username" id="id_username" required 
+                   value="{{ form.username.value|default:'' }}"
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请输入用户名">
+            {% if form.username.help_text %}
+                <small style="color: #666; font-size: 0.85rem;">{{ form.username.help_text }}</small>
+            {% endif %}
+        </div>
+        
+        <div>
+            <label for="id_email" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">邮箱：</label>
+            <input type="email" name="email" id="id_email" required 
+                   value="{{ form.email.value|default:'' }}"
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请输入邮箱地址">
+        </div>
+        
+        <div>
+            <label for="id_password1" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">密码：</label>
+            <input type="password" name="password1" id="id_password1" required 
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请输入密码">
+            {% if form.password1.help_text %}
+                <small style="color: #666; font-size: 0.85rem; display: block; margin-top: 0.25rem;">{{ form.password1.help_text }}</small>
+            {% endif %}
+        </div>
+        
+        <div>
+            <label for="id_password2" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">确认密码：</label>
+            <input type="password" name="password2" id="id_password2" required 
+                   style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"
+                   placeholder="请再次输入密码">
+        </div>
+        
+        <button type="submit" 
+                style="width: 100%; padding: 0.75rem; background: #0c4b33; color: #fff; border: none; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s;"
+                onmouseover="this.style.background='#0a3d2a'" 
+                onmouseout="this.style.background='#0c4b33'">
+            注册
+        </button>
+    </form>
+    
+    <div style="margin-top: 2rem; text-align: center; padding-top: 2rem; border-top: 1px solid #ddd;">
+        <p style="color: #666; margin-bottom: 1rem;">已有账号？</p>
+        <a href="{% url 'users:login' %}" 
+           style="display: inline-block; padding: 0.75rem 2rem; background: #44b78b; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            立即登录
+        </a>
+    </div>
+</div>
+{% endblock %}
+
