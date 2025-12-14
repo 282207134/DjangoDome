@@ -12,6 +12,20 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Django project files
+    "venv/**",
+    "node_modules/**",
+    "**/*.py",
+    "**/*.pyc",
+    "staticfiles/**",
+    "media/**",
+    "db.sqlite3",
+    "django_learning_project/**",
+    "blog/**",
+    "users/**",
+    "api/**",
+    "templates/**",
+    "static/**",
   ]),
 ]);
 
