@@ -94,9 +94,18 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
         
         if self.avatar:
-            img = Image.open(self.avatar.path)
-            
-            if img.height > 300 or img.width > 300:
-                output_size = (300, 300)
-                img.thumbnail(output_size)
-                img.save(self.avatar.path)
+            # 检查文件是否存在，避免在默认头像文件不存在时出错
+            import os
+            if os.path.exists(self.avatar.path):
+                try:
+                    img = Image.open(self.avatar.path)
+                    
+                    if img.height > 300 or img.width > 300:
+                        output_size = (300, 300)
+                        img.thumbnail(output_size)
+                        img.save(self.avatar.path)
+                except Exception as e:
+                    # 如果图片处理失败，记录错误但不阻止保存
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f'处理头像图片时出错: {e}')
